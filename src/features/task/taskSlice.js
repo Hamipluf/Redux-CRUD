@@ -22,11 +22,27 @@ export const taskSlice = createSlice({
   reducers: {
     addTask: (state, action) => {
       state.push(action.payload)
-    }
+    },
+    updateTask: (state, action) => {
+      const { id, title, description } = action.payload
+      const findtask = state.find(task => task.id === id)
+
+      if (findtask) {
+        findtask.title = title
+        findtask.description = description
+      }
+    },
+    deleteTask: (state, action) => {
+      const foundTask = state.find(task => task.id === action.payload);
+      if (foundTask) {
+        state.splice(state.indexOf(foundTask), 1) // primer parametro indice, segundo parametro la cantidad que se desea eliminar
+      }
+    },
+
   }
 })
 
 
-export const { addTask } = taskSlice.actions
+export const { addTask, deleteTask, updateTask } = taskSlice.actions
 
 export default taskSlice.reducer
